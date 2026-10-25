@@ -332,3 +332,4 @@ if (openDivs !== closeDivs) {
 // Write to clones/nectar/index.html
 fs.writeFileSync('/home/mauriciocm/code/open-lovable/clones/nectar/index.html', finalHtml);
 console.log(`✅ clones/nectar/index.html successfully written! Size: ${fs.statSync('/home/mauriciocm/code/open-lovable/clones/nectar/index.html').size} bytes`);
+

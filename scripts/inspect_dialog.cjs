@@ -8,3 +8,4 @@ if (idx !== -1) {
   const end = html.indexOf('</div></div>', idx);
   console.log('Dialog snippet:\n', html.slice(start, end + 12));
 }
+

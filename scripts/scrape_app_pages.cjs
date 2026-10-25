@@ -53,3 +53,4 @@ async function main() {
   await scrape('https://nectar.ai/dashboard', '/tmp/firecrawl_nectar_dashboard.html');
 }
 main().catch(console.error);
+

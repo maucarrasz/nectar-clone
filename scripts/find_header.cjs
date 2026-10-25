@@ -17,3 +17,4 @@ if (navs.length) {
   const navTags = html.match(/<nav[^>]*>[\s\S]*?<\/nav>/g) || [];
   console.log('Nav tags count:', navTags.length);
 }
+

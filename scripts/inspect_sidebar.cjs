@@ -11,3 +11,4 @@ if (sidebarMatches.length) {
   const navMatches = html.match(/class="[^"]*sidebar[^"]*"/g) || [];
   console.log('Sidebar classes found:', navMatches.slice(0, 5));
 }
+

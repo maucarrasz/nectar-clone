@@ -7,3 +7,4 @@ headings.forEach((h, i) => {
   const text = h.replace(/<[^>]+>/g, '').trim();
   console.log(`H ${i+1}:`, text);
 });
+

@@ -22,3 +22,4 @@ console.log('Remaining external media URLs:', remainingExternal.length);
 if (remainingExternal.length) {
   console.log('Sample remaining:', remainingExternal.slice(0, 5));
 }
+

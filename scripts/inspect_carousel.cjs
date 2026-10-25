@@ -12,3 +12,4 @@ slideMatches.forEach((s, i) => console.log(`Slide ${i+1}:`, s));
 // Let us inspect the container surrounding the slides
 const containerStart = html.lastIndexOf('<div class="relative overflow-hidden', carouselIdx);
 console.log('Container snippet:', html.slice(containerStart, containerStart + 600));
+

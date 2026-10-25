@@ -12,3 +12,4 @@ console.log('Explorar at:', explIdx);
 if (explIdx !== -1) {
   console.log(html.slice(Math.max(0, explIdx - 300), explIdx + 300));
 }
+

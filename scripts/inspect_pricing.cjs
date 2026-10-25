@@ -12,3 +12,4 @@ console.log('Open divs:', openDivs, 'Close divs:', closeDivs, 'Diff:', openDivs 
 // Check headings in pricing
 const headings = html.match(/<h[1-4][^>]*>[\s\S]*?<\/h[1-4]>/g) || [];
 headings.forEach(h => console.log('Heading:', h.replace(/<[^>]+>/g, '').trim()));
+

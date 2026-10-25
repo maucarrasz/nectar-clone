@@ -222,7 +222,7 @@ function initFaqAccordion() {
 }
 
 /**
- * 6. Interactive Filter Toggles
+ * 6. Interactive Filter Toggles, Live Search & Mobile Filters
  */
 function initFilterToggles() {
   const groupSwitch = document.querySelector('button[role="switch"]');
@@ -239,4 +239,59 @@ function initFilterToggles() {
       }
     });
   }
+
+  // Live Search filter for 245 Companion Cards
+  const searchInputs = document.querySelectorAll('input[placeholder*="Buscar"]');
+  const cards = document.querySelectorAll('#home-feed a[href^="/girls/"]');
+
+  searchInputs.forEach(input => {
+    input.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        if (!query || text.includes(query)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Category Pills interaction
+  const pills = document.querySelectorAll('#home-feed button[class*="rounded-full"]');
+  pills.forEach(pill => {
+    // Only category selector pills
+    if (pill.id === 'mobile-filter-trigger') return;
+    pill.addEventListener('click', () => {
+      pills.forEach(p => {
+        if (p.id !== 'mobile-filter-trigger') {
+          p.classList.remove('bg-white', 'text-black');
+          p.classList.add('text-foreground-400');
+        }
+      });
+      pill.classList.remove('text-foreground-400');
+      pill.classList.add('bg-white', 'text-black');
+    });
+  });
+
+  // Mobile Filter Trigger
+  const mobileFilterBtn = document.getElementById('mobile-filter-trigger');
+  const desktopFilterCol = document.querySelector('aside.w-\\[256px\\], .lg\\:block.w-\\[256px\\]');
+
+  if (mobileFilterBtn && desktopFilterCol) {
+    mobileFilterBtn.addEventListener('click', () => {
+      const isVisible = desktopFilterCol.classList.contains('mobile-filters-open');
+      if (isVisible) {
+        desktopFilterCol.classList.remove('mobile-filters-open', 'fixed', 'inset-0', 'z-50', 'bg-background/95', 'p-6', 'overflow-y-auto');
+        desktopFilterCol.classList.add('hidden', 'lg:block');
+        document.body.style.overflow = '';
+      } else {
+        desktopFilterCol.classList.remove('hidden');
+        desktopFilterCol.classList.add('mobile-filters-open', 'fixed', 'inset-0', 'z-50', 'bg-background/95', 'p-6', 'overflow-y-auto');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  }
 }
+

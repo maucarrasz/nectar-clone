@@ -7,3 +7,4 @@ const carouselSection = html.slice(start, start + 25000);
 const buttons = carouselSection.match(/<button[^>]*>[\s\S]*?<\/button>/g) || [];
 console.log('Buttons inside hero carousel section:', buttons.length);
 buttons.forEach((b, i) => console.log(`Button ${i+1}:`, b.slice(0, 150)));
+

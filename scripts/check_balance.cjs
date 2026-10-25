@@ -8,3 +8,4 @@ console.log('Open divs:', openDivs, 'Close divs:', closeDivs, 'Diff:', openDivs 
 const openSpans = (html.match(/<span[\s>]/g) || []).length;
 const closeSpans = (html.match(/<\/span>/g) || []).length;
 console.log('Open spans:', openSpans, 'Close spans:', closeSpans, 'Diff:', openSpans - closeSpans);
+

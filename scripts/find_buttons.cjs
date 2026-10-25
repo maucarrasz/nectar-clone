@@ -10,3 +10,4 @@ const m2 = html.match(/<button[^>]*>Salir del sitio<\/button>/);
 if (m2) {
   console.log('Exit button found:', m2[0]);
 }
+

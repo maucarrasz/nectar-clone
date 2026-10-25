@@ -61,3 +61,4 @@ async function scrape(url, outputPath) {
 scrape('https://nectar.ai/pricing', '/tmp/firecrawl_nectar_pricing.html')
   .then(() => console.log('Pricing scraped!'))
   .catch(err => console.error(err));
+

@@ -7,3 +7,4 @@ terms.forEach(t => {
   let count = (html.match(new RegExp(t, 'g')) || []).length;
   console.log(`Term "${t}": count = ${count}`);
 });
+
