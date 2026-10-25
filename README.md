@@ -49,3 +49,4 @@ pnpm build
 ## 🌐 Despliegue en Vercel
 
 Configurado con `vercel.json` para gestionar el enrutamiento SPA de las 12 subpáginas sin recargas ni errores 404.
+

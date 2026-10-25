@@ -1,0 +1,63 @@
+const https = require('https');
+const fs = require('fs');
+
+const apiKey = 'fc-b9b57ab780d54664865211ebfb4d0764';
+
+async function scrape(url, outputPath) {
+  console.log(`Scraping ${url}...`);
+  const postData = JSON.stringify({
+    url: url,
+    formats: ['html'],
+    waitFor: 4000,
+    headers: {
+      'Accept-Language': 'es-ES,es;q=0.9,en;q=0.8'
+    }
+  });
+
+  const options = {
+    hostname: 'api.firecrawl.dev',
+    port: 443,
+    path: '/v1/scrape',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Length': Buffer.byteLength(postData)
+    }
+  };
+
+  return new Promise((resolve, reject) => {
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => {
+        try {
+          const json = JSON.parse(data);
+          if (json.success && json.data && json.data.html) {
+            fs.writeFileSync(outputPath, json.data.html);
+            console.log(`Successfully scraped ${url} to ${outputPath} (${json.data.html.length} bytes)`);
+            resolve(json.data.html);
+          } else {
+            console.error('Failed to scrape:', json);
+            reject(new Error(json.error || 'Scrape failed'));
+          }
+        } catch (err) {
+          console.error('JSON parse error:', err.message, data.slice(0, 300));
+          reject(err);
+        }
+      });
+    });
+
+    req.on('error', (e) => {
+      console.error(`Request error: ${e.message}`);
+      reject(e);
+    });
+
+    req.write(postData);
+    req.end();
+  });
+}
+
+scrape('https://nectar.ai/pricing', '/tmp/firecrawl_nectar_pricing.html')
+  .then(() => console.log('Pricing scraped!'))
+  .catch(err => console.error(err));
