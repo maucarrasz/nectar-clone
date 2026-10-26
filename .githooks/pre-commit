@@ -1,0 +1,21 @@
+#!/bin/bash
+# Escáner de secretos pre-commit (regla del owner 2026-10-25, tras incidente Firecrawl).
+# Instalar en cada clon:  git config core.hooksPath .githooks
+# No guarda ni imprime secretos reales: las coincidencias se muestran truncadas.
+ADDED=$(git diff --cached -U0 --no-color -- . ':(exclude).githooks/*' | grep '^+' | grep -v '^+++' || true)
+[ -z "$ADDED" ] && exit 0
+
+PAT_CLAVES='fc-[A-Za-z0-9_-]{20}|sk-[A-Za-z0-9_-]{20}|ghp_[A-Za-z0-9]{20}|github_pat_[A-Za-z0-9_]{20}|AIza[0-9A-Za-z_-]{30}|xox[baprs]-[0-9A-Za-z-]{10}|eyJ[A-Za-z0-9_-]{10}\.[A-Za-z0-9_-]{10}\.|-----BEGIN [A-Z ]*PRIVATE KEY-----'
+PAT_ASIGNACION='(api[_-]?key|secret|password|token)["'"'"']?[[:space:]]*[:=][[:space:]]*["'"'"'][^"'"'"']{16,}["'"'"']'
+
+bloquea() {
+  echo "BLOQUEADO: posible secreto en los cambios a commitear."
+  echo "$ADDED" | grep -Ein "$1" | sed -E 's/([A-Za-z0-9_.-]{6})[A-Za-z0-9_.-]{8,}/\1…/g' | cut -c1-80 | head -5
+  echo "Los secretos van en el vault o en variables de entorno (process.env), nunca en el código."
+  echo "Si es un falso positivo verificado: git commit --no-verify"
+  exit 1
+}
+
+echo "$ADDED" | grep -Eiq "$PAT_CLAVES" && bloquea "$PAT_CLAVES"
+echo "$ADDED" | grep -Ei "$PAT_ASIGNACION" | grep -Eivq "process\.env|os\.environ|getenv|ENV\[|import\.meta\.env" && bloquea "$PAT_ASIGNACION"
+exit 0
