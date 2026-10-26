@@ -1,6 +1,6 @@
 const https = require('https');
 const fs = require('fs');
-const apiKey = 'fc-b9b57ab780d54664865211ebfb4d0764';
+const apiKey = process.env.FIRECRAWL_API_KEY;
 
 async function scrape(url, outputPath) {
   console.log(`Scraping ${url}...`);
