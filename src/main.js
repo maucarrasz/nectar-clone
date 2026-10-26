@@ -275,23 +275,73 @@ function initFilterToggles() {
     });
   });
 
-  // Mobile Filter Trigger
-  const mobileFilterBtn = document.getElementById('mobile-filter-trigger');
-  const desktopFilterCol = document.querySelector('aside.w-\\[256px\\], .lg\\:block.w-\\[256px\\]');
+  // Right Filter Drawer (Triggered by [Y] 2 button)
+  const filterTriggers = document.querySelectorAll('#filter-drawer-trigger, #mobile-filter-trigger');
+  const drawerBackdrop = document.getElementById('filter-drawer-backdrop');
+  const drawerPanel = document.getElementById('filter-drawer-panel');
+  const drawerCloseBtn = document.getElementById('filter-drawer-close');
 
-  if (mobileFilterBtn && desktopFilterCol) {
-    mobileFilterBtn.addEventListener('click', () => {
-      const isVisible = desktopFilterCol.classList.contains('mobile-filters-open');
-      if (isVisible) {
-        desktopFilterCol.classList.remove('mobile-filters-open', 'fixed', 'inset-0', 'z-50', 'bg-background/95', 'p-6', 'overflow-y-auto');
-        desktopFilterCol.classList.add('hidden', 'lg:block');
-        document.body.style.overflow = '';
-      } else {
-        desktopFilterCol.classList.remove('hidden');
-        desktopFilterCol.classList.add('mobile-filters-open', 'fixed', 'inset-0', 'z-50', 'bg-background/95', 'p-6', 'overflow-y-auto');
-        document.body.style.overflow = 'hidden';
+  function openFilterDrawer() {
+    if (drawerBackdrop && drawerPanel) {
+      drawerBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+      drawerBackdrop.classList.add('opacity-100', 'pointer-events-auto');
+      drawerPanel.classList.remove('translate-x-full');
+      drawerPanel.classList.add('translate-x-0');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeFilterDrawer() {
+    if (drawerBackdrop && drawerPanel) {
+      drawerBackdrop.classList.add('opacity-0', 'pointer-events-none');
+      drawerBackdrop.classList.remove('opacity-100', 'pointer-events-auto');
+      drawerPanel.classList.add('translate-x-full');
+      drawerPanel.classList.remove('translate-x-0');
+      document.body.style.overflow = '';
+    }
+  }
+
+  filterTriggers.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openFilterDrawer();
+    });
+  });
+
+  if (drawerCloseBtn) {
+    drawerCloseBtn.addEventListener('click', closeFilterDrawer);
+  }
+
+  if (drawerBackdrop) {
+    drawerBackdrop.addEventListener('click', closeFilterDrawer);
+  }
+
+  // Solo grupos switch in drawer
+  const soloGruposToggle = document.getElementById('solo-grupos-toggle');
+  if (soloGruposToggle) {
+    soloGruposToggle.addEventListener('click', () => {
+      const isChecked = soloGruposToggle.getAttribute('aria-checked') === 'true';
+      soloGruposToggle.setAttribute('aria-checked', isChecked ? 'false' : 'true');
+      soloGruposToggle.classList.toggle('bg-[#ef4444]', !isChecked);
+      soloGruposToggle.classList.toggle('bg-[#27272a]', isChecked);
+      const thumb = soloGruposToggle.querySelector('span');
+      if (thumb) {
+        thumb.classList.toggle('translate-x-5', !isChecked);
+        thumb.classList.toggle('translate-x-0', isChecked);
       }
     });
   }
+
+  // Click card to open chat in /messages
+  const compCards = document.querySelectorAll('#home-feed div[role="button"]');
+  compCards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('button.group\\/like')) return;
+      const nameEl = card.querySelector('p.truncate');
+      const name = nameEl ? nameEl.textContent.trim() : 'companion';
+      const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      window.location.href = `/messages?id=${slug}`;
+    });
+  });
 }
 
