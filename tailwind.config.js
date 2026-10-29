@@ -2,6 +2,17 @@
 export default {
   content: [
     "./index.html",
+    "./affiliate/**/*.html",
+    "./community/**/*.html",
+    "./create/**/*.html",
+    "./dashboard/**/*.html",
+    "./docs/**/*.html",
+    "./girls/**/*.html",
+    "./messages/**/*.html",
+    "./pricing/**/*.html",
+    "./tag/**/*.html",
+    "./u/**/*.html",
+    "./user/**/*.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   darkMode: 'class',
