@@ -1,9 +1,0 @@
-/*
- * Sidebar & filter-drawer utility layer.
- * The clone markup (hover-expand sidebar, off-canvas filter drawer) uses
- * Tailwind utilities that the scraped original-styles.css never contained,
- * so the drawer rendered visible + transparent and the sidebar mis-sized.
- * This entry generates the missing utilities from ALL page markup.
- * Utilities layer only: preflight already ships in original-styles.css.
- */
-@tailwind utilities;
